@@ -1,0 +1,2 @@
+`React Frontend` is a React application with routing functionality, utilizing technologies like Emotion for styling, Material-UI for UI components, TypeScript for type checking, and more.
+
