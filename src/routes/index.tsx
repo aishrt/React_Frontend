@@ -5,6 +5,7 @@ import Common from "../pages/public/common";
 
 export const AppRoutes = () => {
   const user = localStorage.getItem("user");
+  console.log(user, "opopopopppppopoppopopo");
 
   const commonRoutes = [
     { path: "/", element: <Common /> },

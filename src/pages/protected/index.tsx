@@ -21,10 +21,10 @@ const App = () => {
 
 export const protectedRoutes = [
   {
-    path: "/user",
+    path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <MyProfile /> },
+      { path: "", element: <MyProfile /> },
       { path: "/not-found", element: <Common /> },
       { path: "*", element: <Navigate to="/not-found" /> },
     ],

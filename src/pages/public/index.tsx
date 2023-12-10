@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { Suspense } from "react";
 import Landing from "./landing";
-import Common from "./common";
 import Header from "../../layout/header";
+import { Login } from "../auth/login";
+import { Register } from "../auth/register";
 
 const App = () => {
   return (
@@ -24,8 +25,9 @@ export const publicRoutes = [
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <Landing /> },
-      { path: "/not-found", element: <Common /> },
+      { path: "/", element: <Landing /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
       { path: "*", element: <Navigate to="/not-found" /> },
     ],
   },
