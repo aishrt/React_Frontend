@@ -1,13 +1,50 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+/* .container {
+  max-width: 1024px;
+  margin-left: var(--mb-1-5);
+  margin-right: var(--mb-1-5);
+} */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.errorText {
+  color: rgb(186, 19, 19);
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 10px;
+}
+
+form {
+  margin: 10px 0;
+  width: 100% !important;
+}
+
+img {
+  width: 100%;
+}
+.make-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+input {
+  width: 100%;
+}
+.MuiFormControl-root.MuiTextField-root {
+  margin-top: 14px;
+  width: 100% !important;
+}
+input:-internal-autofill-selected {
+  background-color: transparent !important;
 }
