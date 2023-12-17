@@ -7,6 +7,9 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import login from "../../assets/login.jpg";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import storage from "../../utils/storage";
 
 interface FormData {
   email: string;
@@ -33,9 +36,15 @@ export const Login = () => {
           },
         }
       );
-
+      toast.success("Login successful!");
       console.log("Response:", response.data);
+      const x = response.data?.data?.tokens?.access?.token;
+      console.log(x, "response.data?.tokens?.access?.token");
+
+      storage.setToken(`${x}`);
     } catch (error) {
+      // toast.error("Login failed!");
+      toast.error(`${error}`);
       console.error("Error:", error);
     }
   };
@@ -96,7 +105,7 @@ export const Login = () => {
                 <p className="errorText">{errors.password.message}</p>
               )}
 
-              <div>
+              <div className="make-center">
                 <Button
                   className={clsx("mt-4")}
                   variant="contained"
@@ -114,10 +123,6 @@ export const Login = () => {
         <span className="registerSpan" onClick={() => navigate("/register")}>
           Register here!
         </span>
-        {/* <Button
-          variant="outlined"
-          onClick={() => navigate("/register")}
-        ></Button> */}
       </div>
     </div>
   );
