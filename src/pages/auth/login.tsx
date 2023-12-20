@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import clsx from "clsx";
 import "./auth.css";
@@ -25,27 +24,23 @@ export const Login = () => {
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
     try {
       const response = await axios.post(
         "http://localhost:4004/auth/login",
-        data,
-        {
-          headers: {
-            Accept: "application/json, text/plain, */*",
-          },
-        }
+        data
       );
-      toast.success("Login successful!");
-      console.log("Response:", response.data);
+      const responsemsg = response.data.message;
+      toast.success(responsemsg);
       const x = response.data?.data?.tokens?.access?.token;
-      console.log(x, "response.data?.tokens?.access?.token");
-
       storage.setToken(`${x}`);
-    } catch (error) {
-      // toast.error("Login failed!");
-      toast.error(`${error}`);
-      console.error("Error:", error);
+      navigate("profile");
+    } catch (error: any) {
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        toast.error(errorMessage);
+      } else {
+        toast.error("An error occurred");
+      }
     }
   };
 

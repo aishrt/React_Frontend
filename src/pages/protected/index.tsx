@@ -24,7 +24,7 @@ export const protectedRoutes = [
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <MyProfile /> },
+      { path: "/profile", element: <MyProfile /> },
       { path: "/not-found", element: <Common /> },
       { path: "*", element: <Navigate to="/not-found" /> },
     ],
