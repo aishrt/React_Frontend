@@ -2,7 +2,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { Suspense } from "react";
 import MyProfile from "./myProfile";
 import Header from "../../layout/header";
-import Common from "../public/common";
+import NotFound from "../public/notFound";
+import UserList from "./userList";
 
 const App = () => {
   return (
@@ -25,7 +26,8 @@ export const protectedRoutes = [
     element: <App />,
     children: [
       { path: "/profile", element: <MyProfile /> },
-      { path: "/not-found", element: <Common /> },
+      { path: "/not-found", element: <NotFound /> },
+      { path: "/user-list", element: <UserList /> },
       { path: "*", element: <Navigate to="/not-found" /> },
     ],
   },

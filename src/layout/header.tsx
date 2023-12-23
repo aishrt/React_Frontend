@@ -17,7 +17,8 @@ import storage from "../utils/storage";
 import { toast } from "react-toastify";
 
 function Header() {
-  const user = localStorage.getItem("user");
+  const token = storage.getToken();
+
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -42,8 +43,17 @@ function Header() {
   };
 
   const handleLogout = () => {
-    toast.success("Logged out successfully!");
     storage.clearToken();
+    navigate("/login");
+    toast.success("Logged out successfully!");
+  };
+
+  const handleLogo = () => {
+    if (token) {
+      navigate("/profile");
+    } else {
+      navigate("/home");
+    }
   };
 
   return (
@@ -65,6 +75,7 @@ function Header() {
               color: "inherit",
               textDecoration: "none",
             }}
+            onClick={() => handleLogo()}
           >
             LOGO
           </Typography>
@@ -98,8 +109,8 @@ function Header() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">About</Typography>
+              <MenuItem onClick={() => navigate("/user-list")}>
+                <Typography textAlign="center">User List</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Read Me</Typography>
@@ -128,10 +139,10 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* These are the pages routes that are in the header */}
             <Button
-              onClick={handleCloseNavMenu}
+              onClick={() => navigate("/user-list")}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              About
+              User List
             </Button>
             <Button
               onClick={handleCloseNavMenu}
@@ -141,7 +152,7 @@ function Header() {
             </Button>
           </Box>
 
-          {user ? (
+          {token ? (
             <>
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -213,7 +224,7 @@ function Header() {
 
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
-                    <span onClick={handleLogout}> Logout</span>
+                    <span onClick={() => navigate("/register")}> Register</span>
                   </Typography>
                 </MenuItem>
               </Menu>

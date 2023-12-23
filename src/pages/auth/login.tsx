@@ -31,9 +31,9 @@ export const Login = () => {
       );
       const responsemsg = response.data.message;
       toast.success(responsemsg);
-      const x = response.data?.data?.tokens?.access?.token;
-      storage.setToken(`${x}`);
-      navigate("profile");
+      const accessTocken = response.data?.data?.tokens?.access?.token;
+      storage.setToken(`${accessTocken}`);
+      navigate("/profile");
     } catch (error: any) {
       if (error.response) {
         const errorMessage = error.response.data.message;
@@ -50,7 +50,7 @@ export const Login = () => {
         <div className="row">
           <div className="col-md-7">
             <div className="imgDiv">
-              <img src={login} />
+              <img src={login} alt="login" />
             </div>
           </div>
           <div className="col-md-5 make-center">
