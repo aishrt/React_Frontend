@@ -32,6 +32,10 @@ form {
 img {
   width: 100%;
 }
+
+.errorImg {
+  width: 40% !important;
+}
 .make-center {
   display: flex;
   align-items: center;

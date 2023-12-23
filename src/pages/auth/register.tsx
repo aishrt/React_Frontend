@@ -6,7 +6,11 @@ import { Button } from "@mui/material";
 import registermg from "../../assets/register.jpg";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { useNavigate } from "react-router-dom";
+
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   first_name: string;
@@ -15,10 +19,16 @@ interface FormData {
   phone_number: string;
   password: string;
   address?: string;
+  role?: string;
 }
 
 export const Register = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (event: any) => {
+    setChecked(event.target.checked);
+  };
   const {
     register,
     handleSubmit,
@@ -26,11 +36,11 @@ export const Register = () => {
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
     try {
+      const roleValue = checked ? "admin" : "user";
       const response = await axios.post(
         "http://localhost:4004/auth/register",
-        data,
+        { ...data, role: roleValue },
         {
           headers: {
             Accept: "application/json, text/plain, */*",
@@ -38,8 +48,9 @@ export const Register = () => {
         }
       );
 
-      console.log("Response:", response.data);
-      toast.success("Login successful!");
+      const roleType = response.data.data.role === "user" ? "User" : "Admin";
+      toast.success(`${roleType} Registered successful!`);
+      navigate("/login");
     } catch (error) {
       console.error("Error:", error);
       toast.error(`${error}`);
@@ -53,7 +64,7 @@ export const Register = () => {
           <div className="row">
             <div className="col-md-7 make-center">
               <div className="imgDiv">
-                <img src={registermg} />
+                <img src={registermg} alt="register" />
               </div>
             </div>
             <div className="col-md-5 make-center">
@@ -175,6 +186,13 @@ export const Register = () => {
                     {...register("address")}
                   />
                 </div>
+
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={checked} onChange={handleChange} />
+                  }
+                  label="Want to register as Admin"
+                />
 
                 <div className="make-center">
                   <Button
