@@ -90,7 +90,7 @@ function MyProfile() {
         <>
           {show == false ? (
             <div className="container mt-3">
-              <h3>Hi {user?.first_name} ,welcome to our project</h3>
+              <h3>Hi {user?.first_name} ,welcome to your project</h3>
               <ul>
                 <li>Email : {user?.email}</li>
                 <li>Contact : {user?.phone_number}</li>
@@ -107,6 +107,9 @@ function MyProfile() {
           ) : (
             <div className="formDiv">
               <div className="">
+                <div className="row backButton" onClick={() => setShow(false)}>
+                  <i className="fa-solid fa-circle-left"></i>
+                </div>
                 <div className="row">
                   <div className="col-md-7 make-center">
                     <div className="editimgDiv">

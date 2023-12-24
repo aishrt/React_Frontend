@@ -13,3 +13,12 @@
 .selectDiv {
   margin-top: 14px !important;
 }
+.backButton {
+  width: 100%;
+  position: relative;
+}
+.backButton i {
+  font-size: 22px;
+  cursor: pointer;
+  color: #1976d2;
+}
