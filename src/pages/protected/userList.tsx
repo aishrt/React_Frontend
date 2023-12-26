@@ -25,6 +25,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -62,10 +64,16 @@ function UserList() {
   const [clickDelete, setClickDelete] = useState<boolean>(false);
   const [userList, setUserList] = useState<[]>([]);
   const [userId, setId] = useState<string>("");
+  const [totalPage, setTotalPage] = useState<number>(1);
   const [userDelId, setuserDelId] = useState<string>("");
   const [selectedRole, setRole] = useState("user");
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (event: any, value: any) => {
+    setCurrentPage(value);
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -83,7 +91,6 @@ function UserList() {
       console.error("Error in handleSearch:", error);
     }
   };
-  console.log(userId, "userId we have to edit");
 
   useEffect(() => {
     getUserSearchList();
@@ -123,7 +130,7 @@ function UserList() {
   };
   const getUserList = async () => {
     setLoading(true);
-    let apiUrl = `http://localhost:4004/user/list?role=${selectedRole}`;
+    let apiUrl = `http://localhost:4004/user/list?role=${selectedRole}&page=${currentPage}`;
 
     try {
       const response = await axios.get(`${apiUrl}`, {
@@ -132,6 +139,7 @@ function UserList() {
         },
       });
       setUserList(response?.data?.data);
+      setTotalPage(response?.data?.totalPages);
       setLoading(false);
     } catch (error: any) {
       if (error.response) {
@@ -148,7 +156,7 @@ function UserList() {
     if (token) {
       getUserList();
     }
-  }, [token, isUpdating, selectedRole]);
+  }, [token, isUpdating, selectedRole, currentPage]);
 
   const handleDelete = (idy: string) => {
     setuserDelId(idy);
@@ -262,7 +270,7 @@ function UserList() {
                         {item.address}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {item.role}
+                        {item.role === "user" ? "User" : "Admin"}
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {item.role == "user" ? (
@@ -278,7 +286,6 @@ function UserList() {
                             <div className="col-md-6">
                               <Button
                                 className="bti"
-                                // onClick={() => setuserDelId(item.id)}handleClickOpen
                                 onClick={() => handleDelete(item.id)}
                               >
                                 <i className="fa-solid fa-trash-can"></i>
@@ -296,6 +303,17 @@ function UserList() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <div className="row m-4 rht">
+              <Stack spacing={2}>
+                <Pagination
+                  count={totalPage}
+                  variant="outlined"
+                  shape="rounded"
+                  page={currentPage}
+                  onChange={handlePageChange}
+                />
+              </Stack>
+            </div>
           </div>
           <React.Fragment>
             <BootstrapDialog
