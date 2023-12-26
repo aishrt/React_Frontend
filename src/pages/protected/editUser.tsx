@@ -32,7 +32,6 @@ function EditUser() {
     } catch (error: any) {
       if (error.response) {
         const errorMessage = error.response.data.message;
-        console.log(errorMessage);
       } else {
         console.log("An error occurred");
       }
@@ -73,7 +72,6 @@ function EditUser() {
         }
       );
 
-      console.log("Response:", response.data);
       toast.success("Data updated successfully!");
       navigate("/user-list");
     } catch (error) {
