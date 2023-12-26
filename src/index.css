@@ -37,10 +37,30 @@ img {
   width: 40% !important;
 }
 .make-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+}
+.lft {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  flex-direction: column !important;
+}
+.rht {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  flex-direction: column !important;
+}
+
+.css-wjh20t-MuiPagination-ul {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: rgb(0 43 255 / 20%) !important;
 }
 input {
   width: 100%;
