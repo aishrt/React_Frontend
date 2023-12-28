@@ -15,6 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+ul li {
+  list-style: none;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
 .errorText {
   color: rgb(186, 19, 19);
   font-weight: 600;
@@ -71,4 +78,54 @@ input {
 }
 input:-internal-autofill-selected {
   background-color: transparent !important;
+}
+
+.inputFile {
+  position: relative;
+  border: 1px solid rgb(164, 163, 163);
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.inputFile > input[type="file"] {
+  display: none;
+}
+.inputFile label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  cursor: pointer;
+  width: 91px;
+  height: 90px;
+}
+.inputFile img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 10px;
+  padding: 1px;
+  float: left;
+}
+.inputFile i {
+  font-size: 26px;
+  color: grey;
+}
+.emptyList {
+  width: 100%;
+  height: 100px;
+  margin-top: 10%;
+  color: gray;
+}
+.emptyList i {
+  font-size: 70px;
+}
+.emptyList p {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+  text-transform: capitalize;
 }

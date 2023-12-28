@@ -8,6 +8,10 @@ import registermg from "../../assets/edit.jpg";
 import BackdropLoader from "../../components/Loader/BackdropLoader";
 import "./protected.css";
 import { useNavigate, useParams } from "react-router-dom";
+import FileInput from "../../components/FileInput";
+import { ContentLayout } from "../../layout/ContentLayout";
+import { API_URL } from "../../config";
+import { fileUpload } from "../api/fileUpload";
 
 function EditUser() {
   const token = storage.getToken();
@@ -19,19 +23,17 @@ function EditUser() {
   const getUser = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:4004/user/get-profile/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/user/get-profile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUser(response?.data?.data);
       setLoading(false);
     } catch (error: any) {
       if (error.response) {
         const errorMessage = error.response.data.message;
+        console.log(errorMessage);
       } else {
         console.log("An error occurred");
       }
@@ -52,6 +54,7 @@ function EditUser() {
     phone_number: string;
     password: string;
     address?: string;
+    image?: string;
   }
 
   const {
@@ -60,11 +63,22 @@ function EditUser() {
     formState: { errors },
   } = useForm<FormData>();
 
+  const [file, setFile] = useState<any>();
+  const handleFileChange = (file: File | null, fileDataURL: string) => {
+    setFile(file);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
+      let uploadedFile = user?.image ? user?.image : null;
+
+      if (file) {
+        const imgResp = await fileUpload(file);
+        uploadedFile = imgResp;
+      }
       const response = await axios.put(
-        `http://localhost:4004/user/update-profile/${user?.id}`,
-        data,
+        `${API_URL}/user/update-profile/${user?.id}`,
+        { ...data, image: uploadedFile },
         {
           headers: {
             Accept: "application/json, text/plain, */*",
@@ -82,7 +96,7 @@ function EditUser() {
   };
 
   return (
-    <>
+    <ContentLayout title="Edit User">
       <BackdropLoader open={isLoading} />
       {!user ? (
         <BackdropLoader open={true} />
@@ -90,6 +104,12 @@ function EditUser() {
         <>
           <div className="formDiv">
             <div className="">
+              <div
+                className="row backButton"
+                onClick={() => navigate("/user-list")}
+              >
+                <i className="fa-solid fa-circle-left"></i>
+              </div>
               <div className="row">
                 <div className="col-md-7 make-center">
                   <div className="imgDiv">
@@ -102,6 +122,12 @@ function EditUser() {
                     noValidate
                     autoComplete="off"
                   >
+                    <div>
+                      <FileInput
+                        onFileChange={handleFileChange}
+                        defaultImage={user?.image}
+                      />
+                    </div>
                     <div>
                       <TextField
                         id="first_name"
@@ -201,7 +227,7 @@ function EditUser() {
           </div>
         </>
       )}
-    </>
+    </ContentLayout>
   );
 }
 
