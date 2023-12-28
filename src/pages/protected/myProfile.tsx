@@ -7,6 +7,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import editImg from "../../assets/edit.jpg";
 import BackdropLoader from "../../components/Loader/BackdropLoader";
 import "./protected.css";
+import FileInput from "../../components/FileInput";
+import { ContentLayout } from "../../layout/ContentLayout";
+import { API_URL } from "../../config";
+import userPic from "../../assets/user.png";
+import { fileUpload } from "../api/fileUpload";
 
 function MyProfile() {
   const token = storage.getToken();
@@ -17,7 +22,7 @@ function MyProfile() {
   const getUser = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:4004/auth/me`, {
+      const response = await axios.get(`${API_URL}/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,12 +63,23 @@ function MyProfile() {
     formState: { errors },
   } = useForm<FormData>();
 
+  const [file, setFile] = useState<any>();
+  const handleFileChange = (file: File | null, fileDataURL: string) => {
+    setFile(file);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setUpdating(true);
     try {
+      let uploadedFile = user?.image ? user?.image : null;
+
+      if (file) {
+        const imgResp = await fileUpload(file);
+        uploadedFile = imgResp;
+      }
       const response = await axios.put(
-        `http://localhost:4004/user/update-profile/${user?.id}`,
-        data,
+        `${API_URL}/user/update-profile/${user?.id}`,
+        { ...data, image: uploadedFile },
         {
           headers: {
             Accept: "application/json, text/plain, */*",
@@ -83,26 +99,43 @@ function MyProfile() {
   };
 
   return (
-    <>
+    <ContentLayout title="User Profile">
       {isLoading ? (
         <BackdropLoader open={true} />
       ) : (
         <>
           {show == false ? (
-            <div className="container mt-3">
-              <h3>Hi {user?.first_name} ,welcome to your project</h3>
-              <ul>
-                <li>Email : {user?.email}</li>
-                <li>Contact : {user?.phone_number}</li>
-                <Button
-                  variant="contained"
-                  className="mt-4"
-                  type="submit"
-                  onClick={() => setShow(true)}
-                >
-                  Edit Profile
-                </Button>
-              </ul>
+            <div className="formDiv">
+              <div className="">
+                <div className="row">
+                  <div className="col-md-7 make-center">
+                    <div className="editimgDiv">
+                      <ul>
+                        <li>
+                          <h4>
+                            Hi {user?.first_name} ,welcome to your project
+                          </h4>
+                        </li>
+                        <li>Email : {user?.email}</li>
+                        <li>Contact : {user?.phone_number}</li>
+                        <li>
+                          <Button
+                            variant="contained"
+                            className="mt-4"
+                            type="submit"
+                            onClick={() => setShow(true)}
+                          >
+                            Edit Profile
+                          </Button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-md-5 make-center">
+                    <img src={userPic} alt="Home Page" />
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="formDiv">
@@ -122,6 +155,10 @@ function MyProfile() {
                       noValidate
                       autoComplete="off"
                     >
+                      <FileInput
+                        onFileChange={handleFileChange}
+                        defaultImage={user?.image}
+                      />
                       <div>
                         <TextField
                           id="first_name"
@@ -227,7 +264,7 @@ function MyProfile() {
           )}
         </>
       )}
-    </>
+    </ContentLayout>
   );
 }
 

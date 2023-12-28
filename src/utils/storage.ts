@@ -1,4 +1,4 @@
-const storagePrefix = 'art_';//define page name here
+const storagePrefix = 'art_';
 
 const storage = {
   setToken: (token: string) => {

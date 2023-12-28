@@ -26,7 +26,7 @@ export const publicRoutes = [
     path: "/",
     element: <App />,
     children: [
-      { path: "/home", element: <Landing /> },
+      { path: "/", element: <Landing /> },
       { path: "/login", element: <Login /> },
       { path: "/not-found", element: <NotFound /> },
 

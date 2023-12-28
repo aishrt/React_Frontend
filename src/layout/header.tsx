@@ -52,7 +52,15 @@ function Header() {
     if (token) {
       navigate("/profile");
     } else {
-      navigate("/home");
+      navigate("/");
+    }
+  };
+
+  const handleList = () => {
+    if (token) {
+      navigate("/user-list");
+    } else {
+      toast.info("Login to access this page!");
     }
   };
 
@@ -112,9 +120,9 @@ function Header() {
               <MenuItem onClick={() => navigate("/user-list")}>
                 <Typography textAlign="center">User List</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
+              {/* <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Read Me</Typography>
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -139,17 +147,17 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* These are the pages routes that are in the header */}
             <Button
-              onClick={() => navigate("/user-list")}
+              onClick={() => handleList()}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               User List
             </Button>
-            <Button
+            {/* <Button
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Read Me
-            </Button>
+            </Button> */}
           </Box>
 
           {token ? (
@@ -179,10 +187,10 @@ function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {/* These are the pages for the profile */}
-
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">Profile</Typography>
+                    <Typography textAlign="center">
+                      <span onClick={() => handleLogo()}>Profile</span>
+                    </Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">
